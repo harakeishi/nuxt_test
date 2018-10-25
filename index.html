@@ -7,28 +7,72 @@
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
+  <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 300px;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
     <title></title>
   </head>
   <body>
-    <img id="img" src="">
-    <div id="info">
-      <p id="name"></p>
-      <p id="email"></p>
+    <div class="info">
+      <div class="imgs">
+        <img id="img" src="" alt="img">
+      </div>
+      <div class="datas">
+        <table border="1"width="400">
+          <tr>
+            <td>登録ID</td><td><a id="id">unknown</td>
+          </tr>
+          <tr>
+            <td>氏名</td><td><a id="names">unknown</a><br></td><td>性別</td><td><a id="gender">unknown</a></td>
+          </tr>
+          <tr>
+            <td>生年月日</td><td><a id="date">unknown</a></td><td>年齢</td><td><a id="age">unknown</a></td>
+          </tr>
+          <tr>
+            <td>住所</td><td colspan="3">〒<a id="postcode">unknown</a><br><a id="address">unknown</a></td>
+          </tr>
+          <tr>
+            <td>e-mail</td><td colspan="3"><a id="email">unknown</a></td>
+          </tr>
+          <tr>
+
+          </tr>
+        </table>
+      </div>
     </div>
     <div id="reload">
       <button id="btn">次へ</button>
     </div>
+    <div id="map"></div>
     <script type="text/javascript">
     var btn = document.getElementById('btn');
+    var names = document.getElementById('names');
+    var email = document.getElementById('email');
+    var gender = document.getElementById('gender');
+    var postcode =document.getElementById('postcode');
+    var address = document.getElementById('address');
+    var id = document.getElementById('id');
+    var date = document.getElementById('date');
+    var age = document.getElementById('age')
+    var img = document.getElementById('img');
 
     //「次へ」ボタンをクリックしてJSONデータを読み込み
     btn.addEventListener('click', function() {
-      alert(1)
       $.ajax({
         url: 'https://randomuser.me/api/',
         dataType: 'json',
         success: function(data) {
-          console.log(data)
+          jsonData(data);
         }
       });
       var script = document.createElement('script');
@@ -37,21 +81,30 @@
       document.body.appendChild(script);
       document.body.removeChild(script);
     })
-
+    var map;
+    /*function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 35.709053, lng: 139.73731994},
+        zoom: 10
+      });
+    }*/
     //コールバックされた「jsonData」を読み込み
     function jsonData(data) {
-
       var result = data.results[0];
-      var name = document.getElementById('name');
-      var email = document.getElementById('email');
-      var img = document.getElementById('img');
-
       //取得した各データをHTML要素に代入
       img.src = result.picture.large;
-      email.textContent = result.email;
-      name.textContent = result.name.first + " " + result.name.last;
-
+      email.textContent =result.email;
+      gender.textContent = result.gender;
+      names.textContent = result.name.first + " " +result.name.last;
+      postcode.textContent = result.location.postcode;
+      id.textContent = result.id.name + "-" + result.id.value;
+      address.textContent = result.location.state + " " + result.location.city + "/ " + result.location.street;
+      date.textContent = result.dob.date;
+      age.textContent = result.dob.age;
+      map.panTo(new google.maps.LatLng(result.location.coordinates.latitude,result.location.coordinates.longitude));
     }
-    </script>
+
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFg1ngSQRRGw-rijKXGVXawkCbNkrZQBU&callback=initMap" async defer></script>
   </body>
 </html>
