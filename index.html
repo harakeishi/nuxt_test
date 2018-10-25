@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/master.css">
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+    <title></title>
+  </head>
+  <body>
+    <img id="img" src="">
+    <div id="info">
+      <p id="name"></p>
+      <p id="email"></p>
+    </div>
+    <div id="reload">
+      <button id="btn">次へ</button>
+    </div>
+    <script type="text/javascript">
+    var btn = document.getElementById('btn');
+
+    //「次へ」ボタンをクリックしてJSONデータを読み込み
+    btn.addEventListener('click', function() {
+      alert(1)
+      $.ajax({
+        url: 'https://randomuser.me/api/',
+        dataType: 'json',
+        success: function(data) {
+          console.log(data)
+        }
+      });
+      var script = document.createElement('script');
+
+      script.src = "https://randomuser.me/api/ ";
+      document.body.appendChild(script);
+      document.body.removeChild(script);
+    })
+
+    //コールバックされた「jsonData」を読み込み
+    function jsonData(data) {
+
+      var result = data.results[0];
+      var name = document.getElementById('name');
+      var email = document.getElementById('email');
+      var img = document.getElementById('img');
+
+      //取得した各データをHTML要素に代入
+      img.src = result.picture.large;
+      email.textContent = result.email;
+      name.textContent = result.name.first + " " + result.name.last;
+
+    }
+    </script>
+  </body>
+</html>

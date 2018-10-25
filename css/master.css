@@ -1,0 +1,46 @@
+img {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border: 3px solid #555;
+  box-shadow: 2px 2px 4px #000;
+}
+
+#name {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+#email {
+  font-size: 0.8em;
+}
+
+#info {
+  padding: 15px 5px;
+  width: 250px;
+  margin: auto;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+}
+
+p {
+  margin: 0px;
+}
+
+#reload {
+  text-align: center;
+}
+
+#btn {
+  padding: 5px 0;
+  width: 200px;
+  font-size: 20px;
+  background-color: #ddd;
+  margin-top: 15px;
+}
+
+#btn:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
